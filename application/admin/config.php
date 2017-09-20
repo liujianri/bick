@@ -17,7 +17,7 @@ return [
     ],
       //输出替换
     'view_replace_str'  =>  [
-    '__PUBLIC__'=>'/public/',
+    '__PUBLIC__'=>'/bick/public',
     '__ROOT__' => '/',
     '__ADMIN__' => '/bick/public/static/admin',
 	]

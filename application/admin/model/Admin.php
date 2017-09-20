@@ -21,4 +21,21 @@ class Admin extends Model
     	return $this->paginate(2);
     }
 
+    public function login($data){
+        
+        $admin = Admin::getByName($data['name']);
+        if ($admin) {
+            if ($admin['password']==md5($data['password'])) {
+                session('id',$admin['id']);
+                session('name',$data['name']);
+                return 2;
+            }else{
+                return 3;
+            }
+        }else {
+            return 1;
+        }
+
+    }
+
 }
