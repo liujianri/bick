@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html><head>
         <meta charset="utf-8">
-    <title>编辑栏目</title>
+    <title>添加文章</title>
 
     <meta name="description" content="Dashboard">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +17,11 @@
     <link href="__ADMIN__/style/demo.css" rel="stylesheet">
     <link href="__ADMIN__/style/typicons.css" rel="stylesheet">
     <link href="__ADMIN__/style/animate.css" rel="stylesheet">
+
+    <script type="text/javascript" charset="utf-8" src="__ADMIN__/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="__ADMIN__/ueditor/ueditor.all.min.js"> </script>
+    <script type="text/javascript" charset="utf-8" src="__ADMIN__/ueditor/lang/zh-cn/zh-cn.js"></script>
+
     
 </head>
 <body>
@@ -38,9 +43,9 @@
                         <a href="{:url('index/index')}">系统</a>
                     </li>
                                         <li>
-                        <a href="{:url('lst')}">栏目管理</a>
+                        <a href="{:url('lst')}">文章管理</a>
                     </li>
-                                        <li class="active">编辑栏目</li>
+                                        <li class="active">修改文章</li>
                                         </ul>
                 </div>
                 <!-- /Page Breadcrumb -->
@@ -52,18 +57,63 @@
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">编辑栏目</span>
+                <span class="widget-caption">修改文章</span>
             </div>
             <div class="widget-body">
                 <div id="horizontal-form">
-                    <form class="form-horizontal" role="form" action="" method="post">
+                    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+
                         <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">上级栏目</label>
+                            <label for="username" class="col-sm-2 control-label no-padding-right">标题</label>
                             <div class="col-sm-6">
-                                <select name="pid">
-                                    <option value="0">顶级级栏目</option>
+                                <input class="form-control" id="name" placeholder="" name="title" required="" value="{$artres.title}" type="text">
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                         <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">作者</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="name" placeholder="" name="author" required="" value="{$artres.author}" type="text">
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">关键词</label>
+                            <div class="col-sm-6">
+                                <input class="form-control" id="name" placeholder="" name="keywords" required="" type="text" value="{$artres.keywords}">
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">描述</label>
+                            <div class="col-sm-6">
+                                <textarea name="des" class="form-control" >{$artres.des}</textarea>
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">缩略图</label>
+                            <div class="col-sm-6">
+                            <input style="float: left;" id="name" placeholder="" name="thumb"  type="file">
+                                {if condition="$artres['thumb'] neq '' "}
+                                <img style="float: left;" height="50"  src="__PUBLIC__/{$artres.thumb}">
+                                {else /}
+                                无缩略图</td>
+                                {/if}
+                                
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">所属栏目</label>
+                            <div class="col-sm-6">
+                                <select name="cateid">
+                                    <option value="0">所属栏目</option>
                                     {volist name="cateres" id="cate"}
-                                    <option {if condition="$cates.pid eq $cate.id"}selected="selected"{/if} value="{$cate.id}">{if condition="$cate.level neq 0"}|
+                                    <option value="{$cate.id}" {if condition="$cate.id eq $artres.cateid "}selected="selected"
+                                    {/if}
+                                    >{if condition="$cate.level neq 0"}|
                                 {/if}
                                  <?php echo str_repeat('-',$cate['level']*2)     ?>{$cate.catename}</option>
                                     {/volist}
@@ -71,33 +121,14 @@
                             </div>
                             <p class="help-block col-sm-4 red">* 必填</p>
                         </div>
-                        <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">栏目名称</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" id="name" placeholder="" name="catename" required="" value="{$cates.catename}" type="text">
-                            </div>
-                            <p class="help-block col-sm-4 red">* 必填</p>
-                        </div>
 
                         <div class="form-group">
-                            <label for="group_id" class="col-sm-2 control-label no-padding-right">栏目类型</label>
+                            <label for="username" class="col-sm-2 control-label no-padding-right">内容</label>
                             <div class="col-sm-6">
-                                <div class="radio" style="float: left;margin-right: 10px">
-                                    <label>
-                                        <input {if condition="$cates.type eq '列表'"}checked="checked" {/if} type="radio" name="type" class="" value="1">
-                                        <span class="text">列表</span>
-                                    </label>
-                                </div>
-                                <div class="radio" style="float: left;margin-right: 10px">
-                                    <label>
-                                        <input {if condition="$cates.type eq '单页'"}checked="checked" {/if} type="radio" name="type" class="" value="2">
-                                        <span class="text">单页</span>
-                                    </label>
-                                </div>
-                            </div> 
-                            <p class="help-block col-sm-4 red">* 必填</p> 
-                        </div> 
-                        
+                                <textarea  name="content" id="content" rows="30"  >{$artres.des}</textarea>
+                            </div>
+                            
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-default">保存信息</button>
@@ -124,6 +155,8 @@
     <!--Beyond Scripts-->
     <script src="__ADMIN__/style/beyond.js"></script>
     
-
+<script type="text/javascript">
+        var ue = UE.getEditor('content',{initialFrameWidth:700,initialFrameHeight:400});
+    </script>
 
 </body></html>

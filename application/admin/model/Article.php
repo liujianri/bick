@@ -14,6 +14,15 @@ class Article extends Model
                 }
             }
         });
+        Article::event('before_update', function ($article) {
+            if ($_FILES['thumb']['tmp_name']) {
+                $file = request()->file('thumb');
+                $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
+                if ($info) {
+                    $article['thumb']='uploads/'.$info->getSaveName();
+                }
+            }
+        });
     }
 
 }

@@ -73,12 +73,12 @@
                                 ?></td>
                                 <td align="center">
                                 {if condition="$art['thumb'] neq '' "}
-                                <img height="50" width="50" src="__PUBLIC__/{$art.thumb}">
+                                <img height="50"  src="__PUBLIC__/{$art.thumb}">
                                 {else /}
                                 无缩略图</td>
                                 {/if}
                                 <td >{$art.author}</td>
-                                <td align="center">{$art.cateid}</td>
+                                <td align="center">{$art.catename}</td>
                                 <td align="center">{$art.click}</td>
                                 <td align="center">
                                     <a href="{:url('edit',array('id'=>$art.id))}" class="btn btn-primary btn-sm shiny">

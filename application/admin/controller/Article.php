@@ -7,7 +7,7 @@ class Article extends Base
 {   
 
     public function lst(){
-        $artres=db('article')->paginate(2);
+        $artres=db('article')->field('a.*,b.catename')->alias('a')->join('bk_cate b','a.cateid=b.id')->paginate(2);
         $this->assign('artres',$artres);
 
         return view();
@@ -37,10 +37,31 @@ class Article extends Base
         return view();
     }
     public function edit(){
+        $artres=ArticleModel::get(input('id'));
+        if (request()->isPost()) {
+            $artres->save(input('post.'));
+            if ($artres!==false) {
+                $this->redirect('lst');
+            }else{
+                $this->error('修改失败');
+            }
+        }
+        $cate= new CateModel();
+        $cateres=$cate->catetree();
+        $this->assign('cateres',$cateres);
+        $this->assign('artres',$artres);
         return view();
     }
     public function del(){
-        
+        $id=input('id');
+        // $arts=ArticleModel::get($id);
+        // $url=$arts->thumb;
+        if (ArticleModel::destroy($id)) {
+            
+            $this->redirect('lst');
+        }else{
+            $this->error('删除失败');
+        }
     }
 
 }
