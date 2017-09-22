@@ -5,7 +5,7 @@ class Cate extends Model
 {
 	public function getTypeAttr($value)
     {
-        $type = [1=>'列表',2=>'单页'];
+        $type = [1=>'文章列表',2=>'单页',3=>'图片列表'];
         return $type[$value];
     }
     public function catetree(){

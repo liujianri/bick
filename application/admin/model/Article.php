@@ -16,12 +16,18 @@ class Article extends Model
         });
         Article::event('before_update', function ($article) {
             if ($_FILES['thumb']['tmp_name']) {
+                $art=Article::find($article->id);
+                $thumbpath = $_SERVER['DOCUMENT_ROOT']."/bick/public/".$art['thumb'];
+                if (file_exists($thumbpath)) {
+                    @unlink($thumbpath);
+                }
                 $file = request()->file('thumb');
                 $info = $file->move(ROOT_PATH . 'public' . DS . 'uploads');
                 if ($info) {
                     $article['thumb']='uploads/'.$info->getSaveName();
                 }
             }
+           
         });
     }
 

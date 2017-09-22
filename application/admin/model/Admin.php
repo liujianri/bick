@@ -18,7 +18,7 @@ class Admin extends Model
     	return false ;
     }
     public function getAdmin(){
-    	return $this->paginate(2);
+    	return $this->paginate(5);
     }
 
     public function login($data){
