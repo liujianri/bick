@@ -56,34 +56,18 @@
                     <table class="table table-bordered table-hover">
                         <thead class="">
                             <tr>
-                                <th width="10%" class="text-center">ID</th>
-                                <th width="10%" class="text-center">排序</th>
-                                <th class="text-center">中文名称</th>
-                                <th class="text-center">英文名称</th>
-                                <th class="text-center">配置类型</th>
+                                <th width="20%" class="text-center">站点名称</th>
                                 <th class="text-center">值</th>
-                                <th width="20%" class="text-center">操作</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                       {volist name="conflists" id='conflist'}
+                            {volist name="conflist" id="conf"}
                             <tr>
-                                <td align="center" >{$conflist.id}</td>
-                                <td align="center"><input type="text" style="width: 50px;text-align: center;" name="{$conflist.id}" value="{$conflist.sort}"></td>
-                                <td align="center">{$conflist.cnname}</td>
-                                <td align="center">{$conflist.enname}</td>
-                                <td align="center">{$conflist.type}</td>
-                                <td >{$conflist.valueres}</td>
-                                <td align="center">
-                                    <a href="{:url('edit',array('id'=>$conflist.id))}" class="btn btn-primary btn-sm shiny">
-                                        <i class="fa fa-edit"></i> 编辑
-                                    </a>
-                                    <a href="{:url('del',array('id'=>$conflist.id))}" onClick= "return confirm('你确定要删除该链接吗？');" class="btn btn-danger btn-sm shiny">
-                                        <i class="fa fa-trash-o"></i> 删除
-                                    </a>
-                                </td>
+                                <td align="center" >{$conf.cnname}</td>
+                                <td align="center"><input type="text" class="form-control" name="{$conf.id}" value="{$conf.cnname}"></td>
                             </tr>
-                        {/volist}           
+                            {/volist} 
                         </tbody>
                     </table>
                     <div>
@@ -92,7 +76,7 @@
                     <div style="margin-top: 10px;  ">
                     
                 </div>
-                    {$conflists->render()}
+                    {$conflist->render()}
                 </form>
                 </div>
 

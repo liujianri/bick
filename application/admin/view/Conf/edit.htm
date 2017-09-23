@@ -38,9 +38,9 @@
                         <a href="{:url('index/index')}">系统</a>
                     </li>
                                         <li>
-                        <a href="{:url('lst')}">链接管理</a>
+                        <a href="{:url('lst')}">配置管理</a>
                     </li>
-                                        <li class="active">修改链接</li>
+                                        <li class="active">修改配置</li>
                                         </ul>
                 </div>
                 <!-- /Page Breadcrumb -->
@@ -52,31 +52,44 @@
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
             <div class="widget-header bordered-bottom bordered-blue">
-                <span class="widget-caption">修改链接</span>
+                <span class="widget-caption">修改配置</span>
             </div>
             <div class="widget-body">
                 <div id="horizontal-form">
                     <form class="form-horizontal" role="form" action="" method="post">
                         
                         <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">链接标题</label>
+                            <label for="username" class="col-sm-2 control-label no-padding-right">中文名称</label>
                             <div class="col-sm-6">
-                                <input class="form-control" id="title" placeholder="" name="title" required="" value="{$link.title}" type="text">
-                            </div>
-                            <p class="help-block col-sm-4 red">* 必填</p>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">链接地址</label>
-                            <div class="col-sm-6">
-                                <input class="form-control" value="{$link.url}" id="url" placeholder="" name="url" required="" type="text">
+                                <input class="form-control" id="cnname" placeholder="" name="cnname" required="" type="text" value="{$confs.cnname}">
                             </div>
                             <p class="help-block col-sm-4 red">* 必填</p>
                         </div>
                         <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">链接描述</label>
+                            <label for="username" class="col-sm-2 control-label no-padding-right">英文名称</label>
                             <div class="col-sm-6">
-                                <textarea class="form-control" id="des" placeholder="" name="des"  rows="2" type="text">{$link.des}</textarea>
+                                <input class="form-control" id="enname" placeholder="" name="enname" required="" type="text" value="{$confs.enname}">
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">类型</label>
+                            <div class="col-sm-6">
+                                <select disabled="disabled" name="type" >
+                                    <option value="0">请选择</option>
+                                    <option value="1" {if condition="$confs['type'] eq '单行文本'"} selected="selected" {/if}>单行文本</option>
+                                    <option value="2" {if condition="$confs['type'] eq '多行文本'"} selected="selected" {/if}>多行文本</option>
+                                    <option value="3" {if condition="$confs['type'] eq '单选按钮'"} selected="selected" {/if}>单选按钮</option>
+                                    <option value="4" {if condition="$confs['type'] eq '复选框'"} selected="selected" {/if}>复选框</option>
+                                    <option value="5" {if condition="$confs['type'] eq '下拉菜单'"} selected="selected" {/if}>下拉菜单</option>
+                                </select>
+                            </div>
+                            <p class="help-block col-sm-4 red">* 必填</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label no-padding-right">可选值</label>
+                            <div class="col-sm-6">
+                                <textarea class="form-control" id="des" placeholder="" name="valueres"  rows="2" type="text">{$confs.valueres}</textarea>
                             </div>
                             
                         </div>
