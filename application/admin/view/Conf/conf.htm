@@ -45,8 +45,7 @@
                 <!-- Page Body -->
                 <div class="page-body">
                     
-<button type="button" tooltip="添加" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = '{:url('add')}'"> <i class="fa fa-plus"></i> Add
-</button>
+
 <div class="row">
     <div class="col-lg-12 col-sm-12 col-xs-12">
         <div class="widget">
@@ -56,32 +55,66 @@
                     <table class="table table-bordered table-hover">
                         <thead class="">
                             <tr>
-                                <th width="20%" class="text-center">站点名称</th>
-                                <th class="text-center">值</th>
+                                <th width="20%" align="right" class="text-right">站点名称</th>
+                                <th class="text-left" align="left">值</th>
                                 
                             </tr>
                         </thead>
                         <tbody>
                             {volist name="conflist" id="conf"}
                             <tr>
-                                <td align="center" >{$conf.cnname}</td>
-                                <td align="center"><input type="text" class="form-control" name="{$conf.id}" value="{$conf.cnname}"></td>
+                                <td align="right" >{$conf.cnname}</td>
+                                <td align="left">
+                                {if condition="$conf.type eq '单行文本'"}
+                                <input type="text" class="form-control" name="{$conf.enname}" value="{$conf.value}">
+                                {elseif condition="$conf.type eq '多行文本'"}
+                                <textarea type="text" class="form-control" name="{$conf.enname}" >{$conf.value}</textarea>
+                                {elseif condition="$conf.type eq '单选按钮'"}
+                                 <?php  
+                                    if($conf['valueres']){
+                                        $arr=explode(',',$conf['valueres']);
+                                    }
+                                    foreach($arr as $k1 =>$v1):
+                                ?>
+                                <label style="margin-right: 15px">
+                                        <input {if condition="$v1 eq $conf.value"}checked="checked" {/if} type="radio" name="{$conf.enname}" class="" value="<?php echo $v1;?>">
+                                        <span class="text"><?php echo $v1;?></span>
+                                </label>
+                                <?php endforeach;?>
+                                {elseif condition="$conf.type eq '复选框'"}
+                                <label style="margin-right: 15px">
+                                        <input  type="checkbox" name="{$conf.enname}" class="colored-success" 
+                                        {if condition="$conf.valueres eq $conf.value"}checked="checked" {/if} value="{$conf.valueres}">
+                                        <span class="text">{$conf.valueres}</span>
+                                </label>
+                                {elseif condition="$conf.type eq '下拉菜单'"}
+                                
+                                 <?php  
+                                    if($conf['valueres']){
+                                        $arr=explode(',',$conf['valueres']);
+                                    }
+                                ?>
+                                <select name="{$conf.enname}">
+                                    <?php foreach($arr as $k2 =>$v2): ?>
+                                    <option {if condition="$v2 eq $conf.value"}selected="selected" {/if} <?php echo $v2;?>>
+                                        <?php echo $v2;?>
+                                    </option>
+                                    <?php endforeach;?>
+                                </select>
+                                
+                                {/if}
+                                </td>
                             </tr>
                             {/volist} 
                         </tbody>
                     </table>
+
                     <div>
-                        <input type="submit" name="submit" class="btn btn-primary btn-sm shiny" style="margin-top: 10px"  value="排序">
+                        <input type="submit" name="submit" class="btn btn-primary btn-sm shiny" style="margin-top: 10px;margin-right: 60%;"  value="保存">
                     </div>
-                    <div style="margin-top: 10px;  ">
                     
-                </div>
                     {$conflist->render()}
                 </form>
-                </div>
-
-                <div style="padding-top: 10px;  ">
-                
                 </div>
                 <div>
                 </div>

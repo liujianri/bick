@@ -22,11 +22,31 @@ class Conf extends Base
         return view();
     }
 
-    public function confs(){
+    public function conf(){
         $conf = new ConfModel;
-        $conflist=$conf->order('sort desc')->paginate(5);
+        if (request()->isPost()) {
+            $data=input('post.');
+            $_confarr=db('conf')->field('enname')->select();
+            $formarr = array();
+            foreach ($data as $ke => $va) {
+                $formarr[]=$ke;
+            }
+            foreach ($_confarr as $k => $v) {
+                if (!in_array($v['enname'],$formarr)) {
+                   $data[$v['enname']] = '';
+                }
+            }
+            if ($data) {
+                foreach ($data as $key => $value) {
+                    $conf->where('enname',$key)->update(['value'=>$value]);
+                }
+                $this->success('保存成功','conf');
+            }
+            return;
+        }
+        $conflist=$conf->order('sort desc')->paginate(10);
         $this->assign('conflist',$conflist);
-        return view('conf');
+        return view();
     }
 
     public function add(){
