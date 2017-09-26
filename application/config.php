@@ -238,4 +238,15 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+    //验证码
+    'captcha' => [
+        'codeSet' =>'234567890',
+        'fontSize' =>15,
+        'useCurve' => true,
+        'imageH'=> 33 ,
+        'imageW' => 100,
+        'length' => 4,
+        'reset' => true,
+
+    ],
 ];

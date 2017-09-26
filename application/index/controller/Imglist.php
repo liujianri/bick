@@ -1,7 +1,7 @@
 <?php
 namespace app\index\controller;
-
-class Imglist
+use app\index\controller\Common;
+class Imglist extends Common
 {
     public function index()
     {

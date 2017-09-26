@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 use app\admin\controller\Base;
-
+use think\Loader;
 use app\admin\model\Conf as ConfModel;
 class Conf extends Base
 {
@@ -56,6 +56,10 @@ class Conf extends Base
             if ($data['valueres']) {
                 $data['valueres']=str_replace('，', ',', $data['valueres']);
             }
+            $validate = Loader::validate('Conf'); 
+            if (!$validate->check($data)) {
+                $this->error($validate->getError());
+            }
             $conf = new ConfModel;
             if ($conf->save($data)) {
                 $this->redirect('lst');
@@ -72,7 +76,14 @@ class Conf extends Base
             if ($data['valueres']) {
                 $data['valueres']=str_replace('，', ',', $data['valueres']);
             }
-            if (!$confModel->save($data)==false) {
+
+            $validate = Loader::validate('Conf'); 
+            if (!$validate->scene('edit')->check($data)) {
+                $this->error($validate->getError());
+            }
+            $re=$confModel->save($data);
+            
+            if (!$re=false) {
                 $this->redirect('lst');
             }else{
                 return $this->error('修改失败');
