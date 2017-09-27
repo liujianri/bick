@@ -7,7 +7,11 @@ class Login extends controller
     public function index()
     {
     	if (request()->isPost()) {
-    		$admin= new AdminModel();
+    		
+            if(!captcha_check(input('code'))){
+                $this->error('验证码错误');
+            };
+            $admin= new AdminModel();
         	$adminers = $admin->login(input('post.'));
         	if ($adminers==2) {
         		$this->success('登录成功','Index/index');
