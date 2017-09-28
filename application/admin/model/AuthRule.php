@@ -12,6 +12,7 @@ class AuthRule extends Model
     	static $arr=array();
     	foreach ($data as $k => $v) {
     		if ($v['pid']==$pid) {
+                $v['dataid']=$this->getparenid($v['id']);
     			$arr[]=$v;
     			$this->sort($data,$v['id']);
     		}
@@ -31,6 +32,25 @@ class AuthRule extends Model
     		}
     	}
     	return $arr;
+    }
+    public function getparenid($authRuleId){
+        $authRuleres=$this->select();
+        return $this->_getparenid($authRuleres,$authRuleId,True);
+    }
+    public function _getparenid($authRuleres,$authRuleId,$clear=False){
+        static $arr=array();
+        if ($clear) {
+            $arr=array();
+        }
+        foreach ($authRuleres as $k => $v) {
+            if($v['id']== $authRuleId){
+                $arr[]=$v['id'];
+                $this->_getparenid($authRuleres,$v['pid'],False);
+            }
+        }
+        asort($arr);
+        $arrStr=implode('-', $arr);
+        return $arrStr;
     }
 
 }

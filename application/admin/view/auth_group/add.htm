@@ -78,9 +78,39 @@
                             <p class="help-block col-sm-4 red">* 必填</p>
                         </div>
                         <div class="form-group">
-                            <label for="username" class="col-sm-2 control-label no-padding-right">配置权限</label>
-                            
-                            
+                            <label for="username" class="col-sm-2 control-label no-padding-right"></label>
+                            <div class="col-xs-12 col-md-6">
+                            <div class="well with-header ">
+                                <div class="header bg-blue">
+                                    权限
+                                </div>
+                                <table class="table table-hover">
+                                    <thead class="bordered-darkorange">
+                                        <tr>
+                                            <th>
+                                               配置权限
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {volist name="authruleres" id="vo"}
+                                        <tr>
+                                            <td>
+                                                <label >
+                                                <?php   echo str_repeat('&nbsp',$vo['level']*3)?>
+                                                    <input 
+                                                     dataid='id-{$vo.dataid}'
+                                                     type="checkbox" class="colored-success checkbox-parent {if condition="$vo.level neq 0"} checkbox-child{/if}" name="rules[]" value="{$vo.id}">
+                                                    <span class="text" {if condition="$vo.level eq 0"} style="font-weight: bold" {/if}>{$vo.title}</span>
+                                                </label>
+                                            </td>
+                                            
+                                        </tr>
+                                    {/volist}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
@@ -107,7 +137,43 @@
     <script src="__ADMIN__/style/jquery.js"></script>
     <!--Beyond Scripts-->
     <script src="__ADMIN__/style/beyond.js"></script>
-    
+    <script type="text/javascript">
+/* 权限配置 */
+$(function () {
+    //动态选择框，上下级选中状态变化
+    $('input.checkbox-parent').on('change', function () {
+        var dataid = $(this).attr("dataid");
+        $('input[dataid^=' + dataid + ']').prop('checked', $(this).is(':checked'));
+    });
+    $('input.checkbox-child').on('change', function () {
+        var dataid = $(this).attr("dataid");
+        dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+        var parent = $('input[dataid=' + dataid + ']');
+        if ($(this).is(':checked')) {
+            parent.prop('checked', true);
+            //循环到顶级
+            while (dataid.lastIndexOf("-") != 2) {
+                dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                parent = $('input[dataid=' + dataid + ']');
+                parent.prop('checked', true);
+            }
+        } else {
+            //父级
+            if ($('input[dataid^=' + dataid + '-]:checked').length == 0) {
+                parent.prop('checked', false);
+                //循环到顶级
+                while (dataid.lastIndexOf("-") != 2) {
+                    dataid = dataid.substring(0, dataid.lastIndexOf("-"));
+                    parent = $('input[dataid=' + dataid + ']');
+                    if ($('input[dataid^=' + dataid + '-]:checked').length == 0) {
+                        parent.prop('checked', false);
+                    }
+                }
+            }
+        }
+    });
+});
+    </script>
 
 
 </body></html>

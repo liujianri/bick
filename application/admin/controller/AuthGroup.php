@@ -2,6 +2,8 @@
 namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\admin\model\AuthGroup as AuthGroupModel;
+use app\admin\model\AuthRule as AuthRuleModel;
+
 class AuthGroup extends Base
 {
     public function lst(){
@@ -13,6 +15,9 @@ class AuthGroup extends Base
     public function add(){
         if (request()->isPost()) {
             $data=input('post.');
+            if (isset($data['rules'])) {
+                $data['rules']=implode(',', $data['rules']);
+            }
             $authGroupModel= new AuthGroupModel();
             if (in_array('on', $data)) {
                 $data['status']=1;
@@ -26,6 +31,9 @@ class AuthGroup extends Base
             }
             return;
         }
+        $authRuleModel = new AuthRuleModel;
+        $authruleres=$authRuleModel->authRuleTree();
+        $this->assign('authruleres',$authruleres);
         return view();
     }
     public function edit(){
@@ -33,6 +41,9 @@ class AuthGroup extends Base
         $authGroupModel= new AuthGroupModel();
         if (request()->isPost()) {
             $data=input('post.');
+            if (isset($data['rules'])) {
+                $data['rules']=implode(',', $data['rules']);
+            }
             if (in_array('on', $data)) {
                 $data['status']=1;
             }else{
@@ -46,6 +57,9 @@ class AuthGroup extends Base
             }
            return;
         }
+        $authRuleModel = new AuthRuleModel;
+        $authruleres=$authRuleModel->authRuleTree();
+        $this->assign('authruleres',$authruleres);
         $authGroups = $authGroupModel->find($id);
         $this->assign('authGroups',$authGroups);
         return view();

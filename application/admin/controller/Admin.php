@@ -2,7 +2,9 @@
 namespace app\admin\controller;
 use app\admin\controller\Base;
 use app\admin\model\Admin as AdminModel;
+use app\admin\model\AuthGroup as AuthGroupModel;
 use think\Loader;
+use app\admin\controller\Auth;
 class Admin extends Base
 {   
 
@@ -14,8 +16,14 @@ class Admin extends Base
 
     public function lst()
     {   
+        $auth =new Auth();
         $admin= new AdminModel();
         $adminers = $admin->getAdmin();
+        foreach ($adminers as $key => $value) {
+            $_title=$auth->getGroups($value['id']);
+            $title = $_title[0]['title'];
+            $value['groupTitile']=$title;
+        }
         $this->assign('adminers',$adminers);
         return view();
     }
@@ -34,7 +42,9 @@ class Admin extends Base
             }
             return;
         }
-        
+        $authGroupModel= new AuthGroupModel();
+        $authGroupres = $authGroupModel->select();
+        $this->assign('authGroupres',$authGroupres );
         return view();
     }
     public function edit()
@@ -54,21 +64,29 @@ class Admin extends Base
             }else{
                 $re->password = $password;
             }
-            $re->save();
+            $re->allowField(true)->save();
             if ($re!==false) {
+                $uid=$re->id;
+                $groupAccess['group_id'] =input('group_id');
+                db('auth_group_access')->where('uid',$uid)->update($groupAccess);
                 return $this->redirect('lst');
             }else{
                 $this->error('修改失败');
             }
         }
+        $authGroupModel= new AuthGroupModel();
+        $authGroupres = $authGroupModel->select();
+        $this->assign('authGroupres',$authGroupres );
         $name= $re->name;
+        $authGroupAccess=db('auth_group_access')->where('uid',$id)->find();
+        $this->assign('groupId',$authGroupAccess['group_id']);
         $this->assign('name',$name);
         return view();
     }
 
     public function del(){
-        
         if (AdminModel::destroy(input('id'))) {
+            db('auth_group_access')->where('uid',input('id'))->delete();
             return $this->redirect('lst');
         }else{
             return $this->error('删除失败');

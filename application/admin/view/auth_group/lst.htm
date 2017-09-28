@@ -69,9 +69,9 @@
                                 <td align="center" >{$vo.title}</td>
                                 <td align="center" >
                                 {if condition="$vo.status eq 1"}
-                                 <a class="btn btn-success btn-sm" href="#">启用</a>
+                                 <a class="btn btn-success btn-sm" href="#">已启用</a>
                                 {else /}
-                                <a class="btn btn-darkorange btn-sm" href="#">禁用</a>
+                                <a class="btn btn-darkorange btn-sm" href="#">已禁用</a>
                                 {/if}</td>
                                 <td align="center">
                                     <a href="{:url('edit',array('id'=>$vo.id))}" class="btn btn-primary btn-sm shiny">

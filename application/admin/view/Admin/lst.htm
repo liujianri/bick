@@ -57,6 +57,7 @@
                             <tr>
                                 <th width="10%" class="text-center">ID</th>
                                 <th class="text-center">管理员名称</th>
+                                <th class="text-center">所属用户组</th>
                                 <th width="20%" class="text-center">操作</th>
                             </tr>
                         </thead>
@@ -65,6 +66,7 @@
                             <tr>
                                 <td align="center">{$admin.id}</td>
                                 <td align="center">{$admin.name}</td>
+                                <td align="center">{$admin.groupTitile}</td>
                                 <td align="center">
                                     <a href="{:url('edit',array('id'=>$admin.id))}" class="btn btn-primary btn-sm shiny">
                                         <i class="fa fa-edit"></i> 编辑

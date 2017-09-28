@@ -18,6 +18,7 @@ return [
       //输出替换
     'view_replace_str'  =>  [
     '__PUBLIC__'=>'/public/',
+    '__IMG__'=>'/bick/public',
     '__ROOT__' => '/',
     '__INDEX__' => '/bick/public/static/index',
 	]

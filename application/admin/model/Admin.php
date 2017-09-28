@@ -12,7 +12,10 @@ class Admin extends Model
     		$data['password']=md5($data['password']);
     	}
     	$this->data($data);
-    	if ($this->save()) {
+    	if ($this->allowField(true)->save()) {
+            $groupAccess['uid']=$this->id;
+            $groupAccess['group_id'] =$data['group_id'];
+            db('auth_group_access')->insert($groupAccess);
     		return true;
     	}
     	return false ;

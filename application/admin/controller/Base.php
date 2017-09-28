@@ -1,7 +1,8 @@
 <?php
 namespace app\admin\controller;
 use \think\controller;
-
+use app\admin\controller\Auth;
+use think\Request;
 class Base extends controller
 {
      public function _initialize()
@@ -9,6 +10,19 @@ class Base extends controller
         if (!Session('id')) {
              $this->error('未登录！','Login/index');
         }
+        $auth = new Auth();
+        $request =Request::instance();
+        $con=$request->controller();
+        $action=$request->action();
+        $name=$con.'/'.$action;
+        $notCheck=array('Index/index','Admin/logout');
+        if (Session('id')!=1) {
+        	if (!in_array($name, $notCheck)) {
+        		if (!$auth->check($name, Session('id'))) {
+        			$this->error('没有权限','index/index');
+        		}
+        	}
+        }
+        
     }
-
 }

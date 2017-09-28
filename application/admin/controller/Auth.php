@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: luofei614 <weibo.com/luofei614>　
 // +----------------------------------------------------------------------
-namespace com;
+namespace app\admin\controller;
 use think\Config;
 use think\Session;
 use think\Db;

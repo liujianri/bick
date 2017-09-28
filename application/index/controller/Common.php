@@ -11,6 +11,20 @@ class Common extends Controller
     	foreach ($_confres as $key => $value) {
     		$confres[$value['enname']]=$value['value'];
     	}
+    	$this->getNavCates();
     	$this->assign('confres',$confres);
+    }
+
+    public function getNavCates(){
+    	$cateres=db('cate')->where('pid',0)->select();
+    	foreach ($cateres as $k => $value) {
+    		$children = db('cate')->where('pid',$value['id'])->select();
+    		if ($children) {
+    			$cateres[$k]['children']=$children;
+    		}else{
+    			$cateres[$k]['children']=0;
+    		}
+    	}
+    	$this->assign('cateres',$cateres);
     }
 }
