@@ -1,7 +1,7 @@
 <?php
 namespace app\admin\controller;
 use app\admin\model\Admin as AdminModel;
-use think\controller;
+use think\Controller;
 class Login extends controller
 {
     public function index()

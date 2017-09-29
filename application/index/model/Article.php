@@ -7,7 +7,7 @@ class Article extends Model
 	public function geAllArticles($cateid){
 		$cate = new Cate();
 		$allCateId =$cate->getchilrenid($cateid);
-		$artres = $this->where("cateid IN($allCateId)")->paginate(10);
+		$artres = $this->where("cateid IN($allCateId)")->order('id desc')->paginate(10);
 		return $artres;
 	}
 }

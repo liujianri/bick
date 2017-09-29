@@ -1,9 +1,9 @@
 <?php
 namespace app\admin\controller;
-use \think\controller;
+use think\Controller;
 use app\admin\controller\Auth;
 use think\Request;
-class Base extends controller
+class Base extends Controller
 {
      public function _initialize()
     {

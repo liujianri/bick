@@ -9,6 +9,8 @@ class Artlist extends Common
     	$article = new Article();
     	$artRes=$article->geAllArticles(input('cateid'));
     	$this->assign('artRes',$artRes);
+
+    	
         return view('artlist');
     }
 }

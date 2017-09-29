@@ -17,7 +17,7 @@ class Article extends Base
         
         if (request()->isPost()) {
             $data=input('post.');
-
+            $data['time']=time();
             $validate = Loader::validate('Article'); 
             if (!$validate->check($data)) {
                 $this->error($validate->getError());

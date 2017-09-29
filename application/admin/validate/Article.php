@@ -8,7 +8,7 @@ class Article extends Validate
     protected $rule = [
         'title'  =>  'require|max:50|unique:article',
         'keywords'  =>  'require|max:50',
-        'des'  =>  'require|max:50',
+        'des'  =>  'require',
         'author'  =>  'require|max:50',
         'content'  =>  'require',
         'cateid'  =>  'require',
@@ -21,10 +21,9 @@ class Article extends Validate
         'content.require' => '内容必须填写',
         'cateid.require' => '标所属栏目必须填写',
         'title.unique' => '标题已存在',
-        'title.max'     => '名称最多不能超过25个字符',
-        'keywords.max'     => '名称最多不能超过25个字符',
-        'des.max'     => '名称最多不能超过25个字符',
-        'author.max'     => '名称最多不能超过25个字符',
+        'title.max'     => '名称最多不能超过50个字符',
+        'keywords.max'     => '关键字最多不能超过50个字符',
+        'author.max'     => '作者最多不能超过50个字符',
         
     ];
     
