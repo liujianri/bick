@@ -21,6 +21,7 @@ return [
     '__IMG__'=>'/bick/public',
     '__ROOT__' => '/',
     '__INDEX__' => '/bick/public/static/index',
+    '__ADMIN__' => '/bick/public/static/admin',
 	]
 
 ];
